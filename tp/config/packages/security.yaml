@@ -1,17 +1,30 @@
 security:
-    encoders:
+    password_hashers:
         App\Entity\User:
             algorithm: auto
 
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         main:
-            anonymous: true
+            provider: app_user_provider
             form_login:
                 login_path: login
                 check_path: login
             logout:
                 path: logout
                 target: /
+            custom_authenticator: App\Security\LoginAuthentificatorAuthenticator
+            entry_point: form_login
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

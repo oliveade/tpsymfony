@@ -1,0 +1,21 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Bienvenue{% endblock %}</title>
+</head>
+<body>
+
+<header>
+
+<p class="text-red text-center">Vous êtes banni. Contactez l'administrateur pour plus d'informations.</p>
+
+</header>
+
+<main>
+    {% block body %}{% endblock %}
+</main>
+
+</body>
+</html>

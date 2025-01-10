@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Menu{% endblock %}</title>
+    <link href="{{ asset('build/app.css') }}" rel="stylesheet"> <!-- Assurez-vous que votre CSS est correctement lié -->
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<header class="bg-blue-600 text-white p-4">
+    <nav>
+        <ul class="flex space-x-4">
+            <li><a href="{{ path('app_admin_connection') }}" class="hover:underline">Accéder à l'administration</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-8">Notre Menu</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 border-b-2 border-blue-500">Entrées</h2>
+                <ul>
+                    <li class="flex justify-between mb-2">
+                        <span>Salade César</span>
+                        <span>10€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Bruschetta</span>
+                        <span>8€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Soupe du Jour</span>
+                        <span>7€</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 border-b-2 border-blue-500">Plats Principaux</h2>
+                <ul>
+                    <li class="flex justify-between mb-2">
+                        <span>Poulet Rôti</span>
+                        <span>15€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Filet de Saumon</span>
+                        <span>18€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Pâtes Carbonara</span>
+                        <span>14€</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 border-b-2 border-blue-500">Desserts</h2>
+                <ul>
+                    <li class="flex justify-between mb-2">
+                        <span>Tarte Tatin</span>
+                        <span>6€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Crème Brûlée</span>
+                        <span>5€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Mousse au Chocolat</span>
+                        <span>6€</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 border-b-2 border-blue-500">Boissons</h2>
+                <ul>
+                    <li class="flex justify-between mb-2">
+                        <span>Vin Rouge</span>
+                        <span>20€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Bière Artisanale</span>
+                        <span>5€</span>
+                    </li>
+                    <li class="flex justify-between mb-2">
+                        <span>Jus de Fruits Frais</span>
+                        <span>4€</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
+{% endblock %}

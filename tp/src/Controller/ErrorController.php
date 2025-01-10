@@ -5,11 +5,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminController extends AbstractController
+class ErrorController extends AbstractController
 {
-    #[Route('/admin', name:'app_home')]
-    public function maPage(): Response
+    #[Route('/bannedPage', name:'app_banned')]
+    public function errorPage(): Response
     {
-        return $this->render('/test.html.twig');
+        return $this->render('/error.html.twig');
     }
+  
 }

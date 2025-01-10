@@ -7,9 +7,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    #[Route('/test', name:'admin_list')]
+    #[Route('/', name: 'app_home')]
+    public function index(): Response
+    {
+        return $this->render('/index.html.twig');
+    }
+    #[Route('/test', name:'app_admin')]
     public function maPage(): Response
     {
-        return $this->render('/test.html.twig');
+        return $this->render('/home.html.twig');
+    }
+    #[Route('/adminPage', name:'app_admin_connection')]
+    public function adminDarshboard(): Response
+    {
+        return $this->render('/admin.html.twig');
     }
 }
