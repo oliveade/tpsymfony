@@ -1,18 +1,39 @@
 {% extends 'base.html.twig' %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Bienvenue{% endblock %}</title>
-</head>
-<body>
 
-<header>
-</header>
+{% block body %}
+<div class="min-h-screen bg-gray-100">
+    <header class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Tableau de bord Admin</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="{{ path('app_home') }}" class="hover:underline">Accueil</a></li>
+                    <li>
+                        <a href="{{ path('app_logout') }}" class="hover:underline">Déconnexion</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<main>
-    {% block body %}Admin {% endblock %}
-</main>
-
-</body>
-</html>
+    <main class="p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h3 class="text-xl font-bold mb-4">Gérer les utilisateurs</h3>
+                <p>Modifier, ajouter ou supprimer des utilisateurs.</p>
+                <a href="#" class="bg-blue-500 text-white px-4 py-2 mt-4 inline-block rounded hover:bg-blue-600">Gérer</a>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h3 class="text-xl font-bold mb-4">Gérer les réservations</h3>
+                <p>Consultez et modifiez les réservations des clients.</p>
+                <a href="#" class="bg-blue-500 text-white px-4 py-2 mt-4 inline-block rounded hover:bg-blue-600">Voir</a>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h3 class="text-xl font-bold mb-4">Gérer les plats</h3>
+                <p>Ajoutez ou modifiez les plats disponibles dans le menu.</p>
+                <a href="#" class="bg-blue-500 text-white px-4 py-2 mt-4 inline-block rounded hover:bg-blue-600">Modifier</a>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
