@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\DishRepository;
+use App\Repository\UserRepository;
 class Controller extends AbstractController
 {
     #[Route('/', name: 'app_home')]
@@ -21,8 +22,11 @@ class Controller extends AbstractController
         ]);
     }
     #[Route('/adminPage', name:'app_admin_connection')]
-    public function adminDarshboard(): Response
+    public function adminDarshboard(UserRepository $UserRepository): Response
     {
-        return $this->render('/admin.html.twig');
+        $users = $UserRepository->findAll();
+        return $this->render('/admin.html.twig', [
+            'users' => $users,
+        ]);
     }
 }

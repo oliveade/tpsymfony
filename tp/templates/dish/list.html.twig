@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-3xl font-bold">Liste des plats</h1>
+<a href="{{ path('app_dish_create') }}" class="inline-block bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600 mb-4">Ajouter un plat</a>
+
+<table class="min-w-full bg-white border border-gray-300">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b">Nom</th>
+            <th class="py-2 px-4 border-b">Description</th>
+            <th class="py-2 px-4 border-b">Prix</th>
+            <th class="py-2 px-4 border-b">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dish in dishes %}
+        <tr>
+            <td class="py-2 px-4 border-b">{{ dish.name }}</td>
+            <td class="py-2 px-4 border-b">{{ dish.description }}</td>
+            <td class="py-2 px-4 border-b">{{ dish.price }} €</td>
+            <td class="py-2 px-4 border-b">
+                <a href="{{ path('app_dish_edit', {id: dish.id}) }}" class="text-blue-500 hover:underline">Modifier</a>
+                <form action="{{ path('app_dish_delete', {id: dish.id}) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="text-red-500 hover:underline">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

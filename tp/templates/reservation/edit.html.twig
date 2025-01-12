@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-3xl font-bold">Modifier une réservation</h1>
+
+<form method="POST" class="space-y-4">
+    <div>
+        <label>Date et Heure:</label>
+        <input type="datetime-local" name="reservation_date" value="{{ reservation.reservationDate|date('Y-m-d\TH:i') }}" required class="border rounded w-full py-2 px-3">
+    </div>
+    <div>
+        <label>Nombre de personnes:</label>
+        <input type="number" name="number_of_people" value="{{ reservation.numberOfPeople }}" required class="border rounded w-full py-2 px-3">
+    </div>
+    <div>
+        <label>Statut:</label>
+        <select name="status" class="border rounded w-full py-2 px-3">
+            <option value="confirmed" {% if reservation.status == 'confirmed' %}selected{% endif %}>Confirmée</option>
+            <option value="canceled" {% if reservation.status == 'canceled' %}selected{% endif %}>Annulée</option>
+        </select>
+    </div>
+    <button type="submit" class="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600">Modifier</button>
+</form>
+{% endblock %}

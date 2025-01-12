@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-3xl font-bold">Modifier un plat</h1>
+
+<form method="POST" class="space-y-4">
+    <div>
+        <label>Nom:</label>
+        <input type="text" name="name" value="{{ dish.name }}" required class="border rounded w-full py-2 px-3">
+    </div>
+    <div>
+        <label>Description:</label>
+        <textarea name="description" required class="border rounded w-full py-2 px-3">{{ dish.description }}</textarea>
+    </div>
+    <div>
+        <label>Prix:</label>
+        <input type="number" name="price" value="{{ dish.price }}" step="0.01" required class="border rounded w-full py-2 px-3">
+    </div>
+    <button type="submit" class="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600">Modifier</button>
+</form>
+{% endblock %}

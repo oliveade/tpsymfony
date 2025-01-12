@@ -9,7 +9,7 @@
     <link href="{{ asset('build/app.css') }}" rel="stylesheet"> <!-- Assurez-vous que votre CSS est correctement lié -->
 </head>
 <body class="bg-gray-100 min-h-screen">
-    <header class="bg-blue-600 text-white p-4">
+    <header class="bg-cyan-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold">Mon Restaurant</h1>
             <nav>
@@ -40,13 +40,11 @@
 <main>
     <div class="container mx-auto p-8">
         <h1 class="text-4xl font-bold text-center mb-8">Notre Carte
-
         </h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-100">
             {% for dish in dishes %}
                 <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-semibold mb-4 border-b-2 border-blue-500">{{ dish.name }}</h2>
+                    <h2 class="text-2xl font-semibold mb-4 border-b-2 border-cyan-500">{{ dish.name }}</h2>
                     <p>{{ dish.description }}</p>
                     <p class="font-bold text-xl mt-4">{{ dish.price }}€</p>
                 </div>
