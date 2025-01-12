@@ -26,7 +26,8 @@ class ReservationController extends AbstractController
             $reservation->setReservationDate(new \DateTime($request->request->get('reservation_date')));
             $reservation->setNumberOfPeople($request->request->get('number_of_people'));
             $reservation->setStatus($request->request->get('status'));
-
+            $reservation->setCreatedAt(new \DateTimeImmutable());
+            $reservation->setUpdatedAt(new \DateTimeImmutable());
             $em->persist($reservation);
             $em->flush();
             return $this->redirectToRoute('app_reservation_list');
@@ -47,7 +48,8 @@ class ReservationController extends AbstractController
             $reservation->setReservationDate(new \DateTime($request->request->get('reservation_date')));
             $reservation->setNumberOfPeople($request->request->get('number_of_people'));
             $reservation->setStatus($request->request->get('status'));
-
+            $reservation->setCreatedAt(new \DateTimeImmutable());
+            $reservation->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             return $this->redirectToRoute('app_reservation_list');
         }

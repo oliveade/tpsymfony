@@ -62,13 +62,6 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_reservation_success');
     }
-    #[Route('/users', name: 'app_user_list')]
-    public function list(EntityManagerInterface $em): Response
-    {
-        $users = $em->getRepository(User::class)->findAll();
-        return $this->render('user/list.html.twig', ['users' => $users]);
-    }
-
     #[Route('/users/create', name: 'app_user_create')]
     public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {  
