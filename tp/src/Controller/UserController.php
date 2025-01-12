@@ -12,7 +12,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Restaurant;
 
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -70,19 +70,27 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'app_user_create')]
-    public function create(Request $request, EntityManagerInterface $em): Response
-    {
+    public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    {  
         $user = new User();
 
-        if ($request->isMethod('POST')) {
-            $user->setFirstname($request->request->get('firstname'));
-            $user->setLastname($request->request->get('lastname'));
-            $user->setEmail($request->request->get('email'));
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('app_user_list');
+        $user->setFirstname($request->request->get('firstname'));
+        $user->setLastname($request->request->get('lastname'));
+        $user->setEmail($request->request->get('email'));
+       
+        $plainPassword = $request->request->get('password');
+        if ($plainPassword) {
+            $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
+        } else {
+            throw new \Exception('Le mot de passe est requis.');
         }
-
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setUpdatedAt(new \DateTimeImmutable());
+        $em->persist($user);
+        $em->flush();
+    
+        $this->addFlash('success', 'Utilisateur ajouté avec succès.');
         return $this->render('user/create.html.twig');
     }
 
@@ -99,8 +107,9 @@ class UserController extends AbstractController
             $user->setLastname($request->request->get('lastname'));
             $user->setEmail($request->request->get('email'));
             $em->flush();
-            return $this->redirectToRoute('app_user_list');
+            return $this->redirectToRoute('app_admin_connection');
         }
+
 
         return $this->render('user/edit.html.twig', ['user' => $user]);
     }

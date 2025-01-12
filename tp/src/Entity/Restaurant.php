@@ -172,7 +172,6 @@ class Restaurant
     public function removeTable(Table $table): static
     {
         if ($this->tables->removeElement($table)) {
-            // set the owning side to null (unless already changed)
             if ($table->getRestaurant() === $this) {
                 $table->setRestaurant(null);
             }
@@ -202,7 +201,6 @@ class Restaurant
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
             if ($reservation->getRestaurant() === $this) {
                 $reservation->setRestaurant(null);
             }
@@ -232,7 +230,6 @@ class Restaurant
     public function removeMenu(Menu $menu): static
     {
         if ($this->menus->removeElement($menu)) {
-            // set the owning side to null (unless already changed)
             if ($menu->getRestaurant() === $this) {
                 $menu->setRestaurant(null);
             }

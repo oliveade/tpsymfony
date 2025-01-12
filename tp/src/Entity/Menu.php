@@ -128,7 +128,6 @@ class Menu
     public function removeDish(Dish $dish): static
     {
         if ($this->dishes->removeElement($dish)) {
-            // set the owning side to null (unless already changed)
             if ($dish->getMenu() === $this) {
                 $dish->setMenu(null);
             }
