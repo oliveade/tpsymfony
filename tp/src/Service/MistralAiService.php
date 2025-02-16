@@ -105,7 +105,6 @@ public function generateQuiz(Menu $menu): array
             'temperature' => 0.7,
         ],
     ]);
-dd($response);
     return $response;
 }
 
