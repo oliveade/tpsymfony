@@ -1,45 +1,92 @@
 <?php
-
 namespace App\Service;
 
+use App\Entity\Menu;
+use App\Entity\Dish;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MistralAiService
 {
     private HttpClientInterface $client;
-    private string $apiKey;
+    private string $openAiApiKey;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(HttpClientInterface $client, string $openAiApiKey)
+    public function __construct(HttpClientInterface $client, string $openAiApiKey, EntityManagerInterface $entityManager)
     {
         $this->client = $client;
-        $this->apiKey = $openAiApiKey;
+        $this->openAiApiKey = $openAiApiKey;
+        $this->entityManager = $entityManager;
     }
 
+    public function generateMenu(string $cuisineType, int $nbPlats): Menu
+{
+    $prompt = "Génère un menu de type '$cuisineType' avec $nbPlats plats : 
+    Chaque plat doit inclure :
+    - Un nom
+    - Une courte description
+    - Un prix approximatif entre 5 et 25 euros
 
-
-    public function generateMenu(string $cuisineType, int $nbPlats): array
+    Réponds STRICTEMENT en format JSON : 
     {
-        $prompt = "Génère un menu de restaurant de type '$cuisineType' avec $nbPlats plats, comprenant entrée, plat principal et dessert.";
+        \"menu\": [
+            {\"type\": \"Entrée\", \"name\": \"Salade César\", \"description\": \"Salade avec parmesan et croûtons\", \"price\": 8.5},
+            {\"type\": \"Plat\", \"name\": \"Pâtes Carbonara\", \"description\": \"Pâtes fraîches avec sauce crémeuse et lardons\", \"price\": 15.0},
+            {\"type\": \"Dessert\", \"name\": \"Tiramisu\", \"description\": \"Dessert italien au café et mascarpone\", \"price\": 7.0}
+        ]
+    }";
 
-        $response = $this->client->request('POST', 'https://api.mistral.ai/v1/chat/completions', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
+    $response = $this->client->request('POST', 'https://api.mistral.ai/v1/chat/completions', [
+        'headers' => [
+            'Authorization' => 'Bearer ' . $this->openAiApiKey,
+            'Content-Type' => 'application/json',
+        ],
+        'json' => [
+            'model' => 'mistral-tiny',
+            'messages' => [
+                ['role' => 'system', 'content' => 'Tu es un assistant culinaire.'],
+                ['role' => 'user', 'content' => $prompt]
             ],
-            'json' => [
-                'model' => 'mistral-tiny',
-                'messages' => [
-                    ['role' => 'system', 'content' => 'Tu es un assistant culinaire.'],
-                    ['role' => 'user', 'content' => $prompt]
-                ],
-                'temperature' => 0.7,
-            ],
-        ]);
+            'temperature' => 0.7,
+        ],
+    ]);
 
-        $data = $response->toArray();
+    $data = $response->toArray();
+    $responseText = $data['choices'][0]['message']['content'] ?? '';
 
-        $content = $data['choices'][0]['message']['content'] ?? '';
-
-        return explode("\n", trim($content));
+    if (preg_match('/\{.*\}/s', $responseText, $matches)) {
+        $menuJson = json_decode($matches[0], true);
+    } else {
+        throw new \Exception("Aucun JSON valide trouvé dans la réponse : " . $responseText);
     }
+
+    if (!isset($menuJson['menu']) || !is_array($menuJson['menu'])) {
+        throw new \Exception("Réponse inattendue de l'API : " . json_encode($menuJson));
+    }
+
+    $menu = new Menu();
+    $menu->setName("Menu " . ucfirst($cuisineType));
+    $menu->setDescription("Menu de type $cuisineType avec $nbPlats plats.");
+    $menu->setCreatedAt(new \DateTimeImmutable());
+    $menu->setUpdatedAt(new \DateTimeImmutable());
+
+    $this->entityManager->persist($menu);
+
+    foreach ($menuJson['menu'] as $platData) {
+        $dish = new Dish();
+        $dish->setName($platData['name']);
+        $dish->setDescription($platData['description']);
+        $dish->setPrice($platData['price']);
+        $dish->setCreatedAt(new \DateTimeImmutable());
+        $dish->setUpdatedAt(new \DateTimeImmutable());
+        $dish->setMenu($menu);
+        $menu->addDish($dish);
+        $this->entityManager->persist($dish);
+    }
+
+    $this->entityManager->flush();
+
+    return $menu;
+}
+
 }

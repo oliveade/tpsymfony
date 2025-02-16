@@ -115,16 +115,15 @@ class Menu
         return $this->dishes;
     }
 
-    public function addDish(Dish $dish): static
+    public function addDish(Dish $dish): self
     {
         if (!$this->dishes->contains($dish)) {
-            $this->dishes->add($dish);
+            $this->dishes[] = $dish;
             $dish->setMenu($this);
         }
-
+    
         return $this;
     }
-
     public function removeDish(Dish $dish): static
     {
         if ($this->dishes->removeElement($dish)) {
