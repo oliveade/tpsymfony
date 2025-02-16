@@ -89,4 +89,25 @@ class MistralAiService
     return $menu;
 }
 
+public function generateQuiz(Menu $menu): array
+{
+    $dishes = $menu->getDishes();
+    $dishNames = array_map(function ($dish) {
+        return $dish->getName();
+    }, $dishes->toArray());
+
+    $prompt = "Génère un quiz avec 3 questions sur le menu suivant : " . implode(", ", $dishNames);
+
+    $response = $this->client->request('POST', 'https://api.mistral.ai/v1/chat/completions', [
+        'json' => [
+            'model' => 'mistral-tiny',
+            'messages' => [['role' => 'user', 'content' => $prompt]],
+            'temperature' => 0.7,
+        ],
+    ]);
+dd($response);
+    return $response;
+}
+
+
 }
