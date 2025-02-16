@@ -14,7 +14,7 @@ Pour installer le projet, suivez ces étapes :
 - php bin/console doctrine:schema:update --force
 - php bin/console doctrine:fixtures:load
 
-- npm run dev
+- npm run dev 
 - npm run watch
 
 Pour les fixtures : 
